@@ -1,0 +1,45 @@
+@import "variables";
+
+@mixin reset-list {
+    margin: 0;
+    padding: 0;
+    a, a:link, a:visited {
+            text-decoration: none;
+            color: $secondaryColor;
+          }
+          a:hover {   
+              color: $primaryColor;
+    }
+  }
+
+@mixin myFont2 {
+    font-family: $mainFont;
+    letter-spacing: 3px;
+    color: $secondaryColor;
+    font-weight: bold;
+}
+@mixin myFont {
+  font-family: $mainFont;
+  letter-spacing: 3px;
+  color: $primaryColor;
+  font-weight: bold;
+}
+@mixin myFont3 {
+  font-family: $mainFont;
+  letter-spacing: 3px;
+  color: $tercerColor;
+  font-weight: normal;
+}
+ @mixin heroStyle {  
+ height: 100vh;
+ background-size: cover;
+ position: relative;
+ display:flex;
+ justify-content:center;
+ z-index: 0;
+}
+
+@mixin boxShadow {
+  border-radius: 10px;
+    box-shadow: 0 0 6px 0 rgba(255, 255, 255, 0.8);
+}

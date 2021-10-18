@@ -1,0 +1,20 @@
+@import "mixins";
+@import "variables";
+
+body {
+    @include reset-list;
+}
+
+.titleStyle {
+    text-align: center;
+}
+.subtitleStyle {
+    text-align: center;
+}
+.mainPhoto{
+    height: 100v;
+    width: 100%;
+}
+.imgStyle {
+    width: 50%;
+}
