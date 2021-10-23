@@ -148,7 +148,7 @@ class Producto {
     }
     vender() {
         this.venta = true;
-        }
+        }   
 }
 
 const listOfProducts = [];
@@ -166,24 +166,39 @@ do{
         listOfProducts[i].vender();
         listOfProducts[i].sumarIva();
         
-    }       
+    }   
+const total = []; //declaro array vacio para el precio total
+
 let tabla = document.createElement("table");
-tabla.setAttribute("class", "table table-striped table-dark");
+tabla.setAttribute("class", "table table-striped table-dark");//bootstrap clases
 let tablaBody = document.createElement("tbody");
 let tablaHead = document.createElement("thead");
 tablaHead.innerHTML = `<th>Modelo</th>
                         <th>Talle</th>
                         <th>Color</th>
-                        <th>Precio</th>`;
+                        <th>Precio + IVA</th>`;
 
 for (const producto of listOfProducts) {
     let fila = document.createElement("tr");
-    fila.innerHTML = `      <td>${producto.modelo}</td>
+    fila.innerHTML =       `<td>${producto.modelo}</td>
                             <td>${producto.talle}</td>
                             <td>${producto.color}</td>
                             <td>${producto.precio.toFixed(2)}</td>`;
     tablaBody.appendChild(fila);
+    
+    total.push(producto.precio.toFixed(2));//reutilzando for para pushear precios al array "total"
 }
+//for para precio total del array
+let sum = 0;
+for (let i = 0; i < total.length; i++) {
+    sum += parseFloat(total[i]);
+}
+
+
 tabla.appendChild(tablaHead);
 tabla.appendChild(tablaBody);
 document.body.appendChild(tabla);
+
+let totalPrice = document.createElement("div");
+totalPrice.innerHTML = `<h3>Total: ${sum}</h3>`;
+document.body.appendChild(totalPrice);
