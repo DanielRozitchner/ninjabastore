@@ -187,22 +187,3 @@ for (const producto of listOfProducts) {
 tabla.appendChild(tablaHead);
 tabla.appendChild(tablaBody);
 document.body.appendChild(tabla);
-
-
-// tabla con DOM
-// let tabla = document.createElement("table");
-// tabla.setAttribute("class", "table table-striped");
-// let tablaBody = document.createElement("tbody");
-
-// for (const producto of productos) {
-//     crear las filas con sus celdas
-//     let fila = document.createElement("tr");
-//     plantillas literales
-//     fila.innerHTML = `<td> ${producto.id}</td>
-//     <td>${producto.nombre}</td>
-//     <td><b>$ ${producto.precio}</b></td>`;
-//     tablaBody.appendChild(fila);
-// }
-
-// tabla.appendChild(tablaBody);
-// document.getElementById("inferior").appendChild(tabla);
