@@ -167,7 +167,42 @@ do{
         listOfProducts[i].sumarIva();
         
     }       
-console.log(listOfProducts);
+let tabla = document.createElement("table");
+tabla.setAttribute("class", "table table-striped table-dark");
+let tablaBody = document.createElement("tbody");
+let tablaHead = document.createElement("thead");
+tablaHead.innerHTML = `<th>Modelo</th>
+                        <th>Talle</th>
+                        <th>Color</th>
+                        <th>Precio</th>`;
+
+for (const producto of listOfProducts) {
+    let fila = document.createElement("tr");
+    fila.innerHTML = `      <td>${producto.modelo}</td>
+                            <td>${producto.talle}</td>
+                            <td>${producto.color}</td>
+                            <td>${producto.precio.toFixed(2)}</td>`;
+    tablaBody.appendChild(fila);
+}
+tabla.appendChild(tablaHead);
+tabla.appendChild(tablaBody);
+document.body.appendChild(tabla);
 
 
-    
+// tabla con DOM
+// let tabla = document.createElement("table");
+// tabla.setAttribute("class", "table table-striped");
+// let tablaBody = document.createElement("tbody");
+
+// for (const producto of productos) {
+//     crear las filas con sus celdas
+//     let fila = document.createElement("tr");
+//     plantillas literales
+//     fila.innerHTML = `<td> ${producto.id}</td>
+//     <td>${producto.nombre}</td>
+//     <td><b>$ ${producto.precio}</b></td>`;
+//     tablaBody.appendChild(fila);
+// }
+
+// tabla.appendChild(tablaBody);
+// document.getElementById("inferior").appendChild(tabla);
