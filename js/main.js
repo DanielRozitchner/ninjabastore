@@ -200,5 +200,6 @@ tabla.appendChild(tablaBody);
 document.body.appendChild(tabla);
 
 let totalPrice = document.createElement("div");
+totalPrice.setAttribute("class", "d-flex flex-column align-items-center");//bootstrap clases
 totalPrice.innerHTML = `<h3>Total: ${sum}</h3>`;
 document.body.appendChild(totalPrice);
