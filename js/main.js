@@ -186,7 +186,7 @@ for (const producto of listOfProducts) {
                             <td>${producto.precio.toFixed(2)}</td>`;
     tablaBody.appendChild(fila);
     
-    total.push(producto.precio.toFixed(2));//reutilzando for para pushear precios al array "total"
+    total.push(producto.precio);//reutilzando for para pushear precios al array "total"
 }
 //for para precio total del array
 let sum = 0;
@@ -201,5 +201,5 @@ document.body.appendChild(tabla);
 
 let totalPrice = document.createElement("div");
 totalPrice.setAttribute("class", "d-flex flex-column align-items-center");//bootstrap clases
-totalPrice.innerHTML = `<h3>Total: ${sum}</h3>`;
+totalPrice.innerHTML = `<h3>Total: ${sum.toFixed(2)}</h3>`;
 document.body.appendChild(totalPrice);
