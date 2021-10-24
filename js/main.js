@@ -212,12 +212,3 @@ let totalPrice = document.createElement("div");
 totalPrice.setAttribute("class", "d-flex flex-column align-items-center");//bootstrap clases
 totalPrice.innerHTML = `<h3>Total: ${sum.toFixed(2)}</h3>`;
 document.body.appendChild(totalPrice);
-
-
-
-// //Almacenar producto por producto
-// for (const producto of productos) {
-//     guardarLocal(producto.id, JSON.stringify(producto));
-// }
-// // o almacenar array completo
-// guardarLocal("listaProductos", JSON.stringify(productos));
