@@ -197,7 +197,7 @@ for (let i = 0; i < total.length; i++) {
 
 tabla.appendChild(tablaHead);
 tabla.appendChild(tablaBody);
-document.body.appendChild(tabla);
+document.body.appendChild(tabla); 
 
 let totalPrice = document.createElement("div");
 totalPrice.setAttribute("class", "d-flex flex-column align-items-center");//bootstrap clases
