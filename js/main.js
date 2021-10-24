@@ -166,9 +166,15 @@ do{
         listOfProducts[i].vender();
         listOfProducts[i].sumarIva();
         
-    }   
+    }
+//storage       
+const guardarLocal = (clave, valor) => { localStorage.setItem(clave, valor) };
+
+guardarLocal("listaProductos", JSON.stringify(listOfProducts));
+
 const total = []; //declaro array vacio para el precio total
 
+//variables para generar tabla con for of
 let tabla = document.createElement("table");
 tabla.setAttribute("class", "table table-striped table-dark");//bootstrap clases
 let tablaBody = document.createElement("tbody");
@@ -178,7 +184,10 @@ tablaHead.innerHTML = `<th>Modelo</th>
                         <th>Color</th>
                         <th>Precio + IVA</th>`;
 
+
 for (const producto of listOfProducts) {
+
+
     let fila = document.createElement("tr");
     fila.innerHTML =       `<td>${producto.modelo}</td>
                             <td>${producto.talle}</td>
@@ -203,3 +212,12 @@ let totalPrice = document.createElement("div");
 totalPrice.setAttribute("class", "d-flex flex-column align-items-center");//bootstrap clases
 totalPrice.innerHTML = `<h3>Total: ${sum.toFixed(2)}</h3>`;
 document.body.appendChild(totalPrice);
+
+
+
+// //Almacenar producto por producto
+// for (const producto of productos) {
+//     guardarLocal(producto.id, JSON.stringify(producto));
+// }
+// // o almacenar array completo
+// guardarLocal("listaProductos", JSON.stringify(productos));
