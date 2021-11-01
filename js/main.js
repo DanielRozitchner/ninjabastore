@@ -86,7 +86,8 @@ document.body.appendChild(totalPrice);
 let selectDetails = document.getElementById("selectDetails");
 selectDetails.addEventListener("click", clickSelect)
 function clickSelect () {
-        let selectShirt = document.createElement("h1");
-        selectShirt.innerText = "Proximamente tendras mas novedades";
+        let selectShirt = document.createElement("select");
+        selectShirt.innerHTML = `<option value="negro">Negro</option>
+                                <option value="Lila">Lila</option>`;
      document.getElementById("selector").appendChild(selectShirt);
 }
