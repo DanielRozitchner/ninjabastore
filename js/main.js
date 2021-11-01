@@ -15,6 +15,10 @@ class Producto {
         }   
 }
 
+
+
+
+
 const listOfProducts = [];
 let salida
 do{
@@ -76,3 +80,13 @@ let totalPrice = document.createElement("div");
 totalPrice.setAttribute("class", "d-flex flex-column align-items-center");//bootstrap clases
 totalPrice.innerHTML = `<h3>Total: ${sum.toFixed(2)}</h3>`;
 document.body.appendChild(totalPrice);
+
+
+//choose event ejercicio 9
+let selectDetails = document.getElementById("selectDetails");
+selectDetails.addEventListener("click", clickSelect)
+function clickSelect () {
+        let selectShirt = document.createElement("h1");
+        selectShirt.innerText = "Proximamente tendras mas novedades";
+     document.getElementById("selector").appendChild(selectShirt);
+}
