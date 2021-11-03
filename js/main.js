@@ -187,14 +187,17 @@ timer: 1300
 };
 productos.forEach(newProduct => {
     const producto = `
-        <div class="producto">
-            <h3 class="producto__modelo">${newProduct.modelo}</h3>
-            <div><img src="${newProduct.img}"></div>     
-            <select id="talleSeleccionado-${newProduct.id}">${newProduct.talle.map(talle => `<option value="${talle}">${talle}</option>`)}</select>
-            <select id="colorSeleccionado-${newProduct.id}">${newProduct.color.map(color => `<option value="${color}">${color}</option>`)}</select>
-            <h3 class="producto__precio">$  ${newProduct.precio}</h3>
-            <button onclick='agregarAlCarrito(${JSON.stringify(newProduct)});'>Agregar al carrito</button>
-        </div>
-        `;
+        <div class="col mb-4">  
+            <div class="producto card d-flex flex-column align-items-center"">
+                <img class="card-img-top imgStyle"src="${newProduct.img}"> 
+                <div class="card=body">
+                    <h3 class="producto__modelo">${newProduct.modelo}</h3>
+                    <select id="talleSeleccionado-${newProduct.id}">${newProduct.talle.map(talle => `<option value="${talle}">${talle}</option>`)}</select>
+                    <select id="colorSeleccionado-${newProduct.id}">${newProduct.color.map(color => `<option value="${color}">${color}</option>`)}</select>
+                    <h3 class="producto__precio">$  ${newProduct.precio}</h3>
+                    <button onclick='agregarAlCarrito(${JSON.stringify(newProduct)});'>Agregar al carrito</button>
+                </div>
+            </div>
+        </div>`;
     document.querySelector("#cards").innerHTML += producto;
     });
