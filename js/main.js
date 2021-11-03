@@ -36,7 +36,7 @@ productos.forEach(newProduct => {
                     <select id="talleSeleccionado-${newProduct.id}">${newProduct.talle.map(talle => `<option value="${talle}">${talle}</option>`)}</select>
                     <select id="colorSeleccionado-${newProduct.id}">${newProduct.color.map(color => `<option value="${color}">${color}</option>`)}</select>
                     <h3 class="producto__precio">$  ${newProduct.precio}</h3>
-                    <button onclick='agregarAlCarrito(${JSON.stringify(newProduct)});'>Agregar al carrito</button>
+                    <button class="btn btn-danger" onclick='agregarAlCarrito(${JSON.stringify(newProduct)});'>Agregar al carrito</button>
                 </div>
             </div>
         </div>`;
