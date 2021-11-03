@@ -167,23 +167,22 @@ const agregarAlCarrito = productoSeleccionado => {
     console.log(arrayCarrito);
 
     let almacenados;
-     
-     if (JSON.parse(localStorage.getItem("listaProductos")).length) {
+
+    if (JSON.parse(localStorage.getItem("listaProductos"))?.length) {
         almacenados = JSON.parse(localStorage.getItem("listaProductos"));
-     } else {
-         almacenados= []
-     }
-     almacenados.push(productoAgregado)
+    } else {
+    almacenados= [];
+    }
+    almacenados.push(productoAgregado);
     
     localStorage.setItem("listaProductos",JSON.stringify(almacenados));
-    
-    // = JSON.parse(localStorage.getItem("listaProductos"));
-Swal.fire({
-  position: 'top-end',
-  icon: 'success',
-  title: 'Nuevo producto agregado al carrito',
-  showConfirmButton: false,
-  timer: 1300
+
+    Swal.fire({
+position: 'center',
+icon: 'success',
+title: 'Nuevo producto agregado al carrito',
+showConfirmButton: false,
+timer: 1300
 })
 };
 productos.forEach(newProduct => {
@@ -196,6 +195,6 @@ productos.forEach(newProduct => {
             <h3 class="producto__precio">$  ${newProduct.precio}</h3>
             <button onclick='agregarAlCarrito(${JSON.stringify(newProduct)});'>Agregar al carrito</button>
         </div>
-          `;
-      document.querySelector("#cards").innerHTML += producto;
+        `;
+    document.querySelector("#cards").innerHTML += producto;
     });
