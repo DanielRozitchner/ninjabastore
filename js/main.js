@@ -34,8 +34,8 @@ productos.forEach(newProduct => {
                 <img class="card-img-top imgStyle"src="${newProduct.img}"> 
                 <div class="card=body">
                     <h3 class="producto__modelo">${newProduct.modelo}</h3>
-                    <select id="talleSeleccionado-${newProduct.id}">${newProduct.talle.map(talle => `<option value="${talle}">${talle}</option>`)}</select>
-                    <select id="colorSeleccionado-${newProduct.id}">${newProduct.color.map(color => `<option value="${color}">${color}</option>`)}</select>
+                    <select class="custom-select" id="talleSeleccionado-${newProduct.id}">${newProduct.talle.map(talle => `<option value="${talle}">${talle}</option>`)}</select>
+                    <select class="custom-select" id="colorSeleccionado-${newProduct.id}">${newProduct.color.map(color => `<option value="${color}">${color}</option>`)}</select>
                     <h3 class="producto__precio">$  ${newProduct.precio}</h3>
                     <button class="btn btn-danger" onclick='agregarAlCarrito(${JSON.stringify(newProduct)});'>Agregar al carrito</button>
                 </div>
