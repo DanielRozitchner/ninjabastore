@@ -21,7 +21,8 @@ const agregarAlCarrito = productoSeleccionado => {
     Swal.fire({
 position: 'center',
 icon: 'success',
-title: 'Nuevo producto agregado al carrito',
+title: productoAgregado.modelo,
+text: 'Ha sido agregado al carrito!',
 showConfirmButton: false,
 timer: 1300
 })
