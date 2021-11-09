@@ -26,7 +26,17 @@ text: 'Ha sido agregado al carrito!',
 showConfirmButton: false,
 timer: 1300
 })
+//Agregando los productos al carrito del DOM mediante jQuery
+$(".carritoProducts").append(`
+<tr>
+    <td><img src="${productoAgregado.img}" height="80%" width="80%"></img></td>
+    <td>${productoAgregado.modelo}</td>
+    <td>${productoAgregado.talle}</td>
+    <td>${productoAgregado.color}</td>
+    <td>$${productoAgregado.precio}</td>
+    </tr>`)
 };
+
 productos.forEach(newProduct => {
     const producto = `
         <div class="col mb-4">  
