@@ -1,3 +1,20 @@
+$(document).ready(function () {
+    if("listaProductos" in localStorage){
+        const almacenados = JSON.parse(localStorage.getItem("listaProductos"));
+        if(almacenados.length > 0){
+            for (const almacen of almacenados) {
+                $(".carritoProducts").append(`
+                <tr>
+                    <td><img src="${almacen.img}" height="80%" width="80%"></img></td>
+                    <td>${almacen.modelo}</td>
+                    <td>${almacen.talle}</td>
+                    <td>${almacen.color}</td>
+                    <td>$${almacen.precio}</td>
+                    </tr>`)
+            }
+        }
+    }
+});
 const agregarAlCarrito = productoSeleccionado => {
     const productoAgregado = {
         ...productoSeleccionado, // spread operator
@@ -11,12 +28,24 @@ const agregarAlCarrito = productoSeleccionado => {
 
     if (JSON.parse(localStorage.getItem("listaProductos"))?.length) {
         almacenados = JSON.parse(localStorage.getItem("listaProductos"));
-    } else {
+//         almacenados.forEach(newAlmacen => {
+//             $(".carritoProducts").append(`
+// <tr>
+//     <td><img src="${newAlmacen.img}" height="80%" width="80%"></img></td>
+//     <td>${newAlmacen.modelo}</td>
+//     <td>${newAlmacen.talle}</td>
+//     <td>${newAlmacen.color}</td>
+//     <td>$${newAlmacen.precio}</td>
+//     </tr>`);
+//         }
+//         )
+} else {
     almacenados= [];
     }
     almacenados.push(productoAgregado);
     
     localStorage.setItem("listaProductos",JSON.stringify(almacenados));
+
 
     Swal.fire({
 position: 'center',
