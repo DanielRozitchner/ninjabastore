@@ -101,11 +101,11 @@ productos.forEach(newProduct => {
         sum += parseFloat(total[i]);
     }
     console.log(sum);
+    return sum;
     }
     
 
     function confirmarCompra() {
-    console.log(total);
 
     $('#btnCon').hide();
 
