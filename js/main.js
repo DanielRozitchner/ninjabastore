@@ -18,9 +18,12 @@ $(document).ready(function () {
                     sum += parseFloat(total[i]);
             }   
             $(".total").append(`<h3>Total: $${sum.toFixed(2)}</h3>`)
+            $(".confirmarCompra").append(`<button class="btn btn-danger btnConfirmar" id="btnCon">CONFIRMAR</button>`)
+            $('#btnCon').click(confirmarCompra)
         }
     }
 });
+
 const agregarAlCarrito = productoSeleccionado => {
     const productoAgregado = {
         ...productoSeleccionado, // spread operator
@@ -28,8 +31,6 @@ const agregarAlCarrito = productoSeleccionado => {
         color: document.querySelector(`#colorSeleccionado-${productoSeleccionado.id}`).value
     }
     arrayCarrito.push(productoAgregado);
-    console.log(arrayCarrito);
-
     let almacenados;
 
     if (JSON.parse(localStorage.getItem("listaProductos"))?.length) {
@@ -70,7 +71,9 @@ for (let i = 0; i < total.length; i++) {
 }
 $(".total").empty();   
 $(".total").append(`<h3>Total: $${sum.toFixed(2)}</h3>`)
-
+$(".confirmarCompra").empty();
+$(".confirmarCompra").append(`<button class="btn btn-danger btnConfirmar" id="btnCon">CONFIRMAR</button>`)
+$('#btnCon').click(confirmarCompra)
 };
 
 productos.forEach(newProduct => {
@@ -90,64 +93,41 @@ productos.forEach(newProduct => {
     document.querySelector("#cards").innerHTML += producto;
     });
 
-
-// for (const producto of listOfProducts) {
+    //calcular total para enviar datos a backend    
     
-//     total.push(producto.precio);//reutilzando for para pushear precios al array "total"
-// }
-//for para precio total del array
+    function calcularTotal() {
+        let sum = 0;
+    for (let i = 0; i < total.length; i++) {
+        sum += parseFloat(total[i]);
+    }
+    console.log(sum);
+    }
+    
 
+    function confirmarCompra() {
+    console.log(total);
 
-// let totalPrice = document.createElement("div");
-// totalPrice.setAttribute("class", "d-flex flex-column align-items-center");//bootstrap clases
-// totalPrice.innerHTML = `<h3>Total: ${sum.toFixed(2)}</h3>`;
-// document.body.appendChild(totalPrice);
+    $('#btnCon').hide();
 
+    const URLGET   = "https://jsonplaceholder.typicode.com/posts";
 
-// function carritoUI(productos){
-//     //CAMBIAR INTERIOR DEL INDICADOR DE CANTIDAD DE PRODUCTOS;
-//     $('#carritoCantidad').html(productos.length);
-//     //VACIAR EL INTERIOR DEL CUERPO DEL CARRITO;
-//     $('#carritoProductos').empty();
-//     for (const producto of productos) {
-//       $('#carritoProductos').append(registroCarrito(producto));
-//     }
-//     //AGREGAR TOTAL
-//     $('#carritoProductos').append(`<p id="totalCarrito"> TOTAL ${totalCarrito(productos)}</p>`);
-//     //AGREGAR BOTON CONFIRMAR
-//     $('#carritoProductos').append('<div id="divConfirmar" class="text-center"><button id="btnConfimar" class="btn btn-success">CONFIRMAR</button></div>')
-//     //ASOCIAMOS LOS EVENTOS A LA INTERFAZ GENERADA
-//     $('.btn-delete').on('click', eliminarCarrito);
-//     $('.btn-add').click(addCantidad);
-//     $('.btn-sub').click(subCantidad);
-//     $('#btnConfimar').click(confirmarCompra);
+    const infoPost =  { Productos: JSON.stringify(localStorage.getItem("listaProductos")) , Precio: calcularTotal()}
+    
+    console.log(infoPost);
 
-//     function confirmarCompra(){
-//         //OCULTAR EL BOTON
-//         $('#btnConfimar').hide();
-//         //AÑADIR SPINNER
-//         $('#divConfirmar').append(`<div class="spinner-border text-success" role="status">
-//                                     <span class="sr-only">Loading...</span>
-//                                   </div>`);
-//         console.log("ENVIAR AL BACKEND");
-//         //REALIZAMOS LA PETICION POST
-//         //const URLPOST = '/compra.php';
-//         const URLPOST = 'https://jsonplaceholder.typicode.com/posts';
-//         //INFORMACION A ENVIAR
-//         const DATA   = {productos: JSON.stringify(carrito), total: totalCarrito(carrito)}
-//         //PETICION POST CON AJAX
-//         $.post(URLPOST, DATA,function(respuesta,estado){
-//             //console.log(respuesta);
-//             //console.log(estado);
-//             if(estado == 'success'){
-//               //MOSTRAMOS NOTIFICACION DE CONFIRMACIÓN (CON ANIMACIONES)
-//               $("#notificaciones").html(`<div class="alert alert-sucess alert-dismissible fade show" role="alert">
-//                           <strong>COMPRA CONFIRMADA!</strong> Comprobante Nº ${respuesta.id}.
-//                           <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-//                             <span aria-hidden="true">&times;</span>
-//                           </button>
-//                           </div>`).fadeIn().delay(2000).fadeOut('');
-// let totalPrice = document.createElement("div");
-// totalPrice.setAttribute("class", "d-flex flex-column align-items-center");//bootstrap clases
-// totalPrice.innerHTML = `<h3>Total: ${sum.toFixed(2)}</h3>`;
-// document.body.appendChild(totalPrice);
+    $.post(URLGET, infoPost ,(respuesta, estado) => {
+        if(estado == "success"){
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Tu orden compra ha sido confirmada con el comprobante N°:',
+                text: respuesta.id,
+                showConfirmButton: false,
+                timer: 1300
+                })
+    };
+});
+localStorage.setItem("listaProductos",'[]');
+$('.carritoProducts').empty();
+$('.total').empty();
+}
