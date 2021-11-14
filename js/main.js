@@ -28,17 +28,6 @@ const agregarAlCarrito = productoSeleccionado => {
 
     if (JSON.parse(localStorage.getItem("listaProductos"))?.length) {
         almacenados = JSON.parse(localStorage.getItem("listaProductos"));
-//         almacenados.forEach(newAlmacen => {
-//             $(".carritoProducts").append(`
-// <tr>
-//     <td><img src="${newAlmacen.img}" height="80%" width="80%"></img></td>
-//     <td>${newAlmacen.modelo}</td>
-//     <td>${newAlmacen.talle}</td>
-//     <td>${newAlmacen.color}</td>
-//     <td>$${newAlmacen.precio}</td>
-//     </tr>`);
-//         }
-//         )
 } else {
     almacenados= [];
     }
