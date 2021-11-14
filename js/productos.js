@@ -1,6 +1,7 @@
 const posiblesTalles = ["S","M","L","XL"];
 const posiblesColores = ["Lila","Negro"];
 const arrayCarrito = [];
+const total = []
 const productos = [{
     id: "1",
     modelo: "Remera Ninja",
