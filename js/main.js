@@ -12,7 +12,12 @@ $(document).ready(function () {
                     <td>$${almacen.precio}</td>
                     </tr>`)
                 total.push(almacen.precio);
+            }
+            let sum = 0;
+                for (let i = 0; i < total.length; i++) {
+                    sum += parseFloat(total[i]);
             }   
+            $(".total").append(`<h3>Total: $${sum.toFixed(2)}</h3>`)
         }
     }
 });
@@ -58,7 +63,13 @@ $(".carritoProducts").append(`
     <td>$${productoAgregado.precio}</td>
     </tr>`)
 total.push(productoAgregado.precio);    
-console.log(total);
+
+let sum = 0;
+for (let i = 0; i < total.length; i++) {
+    sum += parseFloat(total[i]);
+}
+$(".total").empty();   
+$(".total").append(`<h3>Total: $${sum.toFixed(2)}</h3>`)
 
 };
 
@@ -84,11 +95,8 @@ productos.forEach(newProduct => {
     
 //     total.push(producto.precio);//reutilzando for para pushear precios al array "total"
 // }
-// //for para precio total del array
-// let sum = 0;
-// for (let i = 0; i < total.length; i++) {
-//     sum += parseFloat(total[i]);
-// }
+//for para precio total del array
+
 
 // let totalPrice = document.createElement("div");
 // totalPrice.setAttribute("class", "d-flex flex-column align-items-center");//bootstrap clases
@@ -139,3 +147,7 @@ productos.forEach(newProduct => {
 //                             <span aria-hidden="true">&times;</span>
 //                           </button>
 //                           </div>`).fadeIn().delay(2000).fadeOut('');
+// let totalPrice = document.createElement("div");
+// totalPrice.setAttribute("class", "d-flex flex-column align-items-center");//bootstrap clases
+// totalPrice.innerHTML = `<h3>Total: ${sum.toFixed(2)}</h3>`;
+// document.body.appendChild(totalPrice);
