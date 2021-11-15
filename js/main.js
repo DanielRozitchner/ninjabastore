@@ -92,6 +92,20 @@ productos.forEach(newProduct => {
         </div>`;
     document.querySelector("#cards").innerHTML += producto;
     });
+    
+   //jquery animacion
+
+    $(".titleStyle").hover(
+        function() {
+            $( this ).fadeOut( 300 );
+            $( this ).fadeIn( 500 )
+            $( this ).css("color", "blueviolet");
+        });
+
+    
+
+
+
 
     //calcular total para enviar datos a backend    
     
