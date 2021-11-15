@@ -133,7 +133,7 @@ productos.forEach(newProduct => {
             Swal.fire({
                 position: 'center',
                 icon: 'success',
-                title: 'Tu orden compra ha sido confirmada con el comprobante N°:',
+                title: 'Tu orden de compra ha sido confirmada con el comprobante N°:',
                 text: respuesta.id,
                 showConfirmButton: false,
                 timer: 1800
