@@ -100,7 +100,6 @@ productos.forEach(newProduct => {
     for (let i = 0; i < total.length; i++) {
         sum += parseFloat(total[i]);
     }
-    console.log(sum);
     return sum;
     }
     
@@ -123,7 +122,7 @@ productos.forEach(newProduct => {
                 title: 'Tu orden compra ha sido confirmada con el comprobante N°:',
                 text: respuesta.id,
                 showConfirmButton: false,
-                timer: 1300
+                timer: 1800
                 })
     };
 });
