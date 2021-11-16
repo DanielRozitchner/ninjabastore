@@ -16,18 +16,20 @@ $(document).ready(function () {
                     </button>
                 </td>
                     </tr>`)
-                total.push(almacen.precio);
-                function eliminar() {
+                total.push({id: almacen.id, value: almacen.precio});
+                
                     $(`.eliminar-${almacen.id}`).click(function(){
                         $(this).parent('td').parent('tr').remove();
+                         
+                        //buscar el index del elemento en el array y eliminarlo con splice
                     })
                     
-                }
-                eliminar();
+                
+            
             }
             let sum = 0;
                 for (let i = 0; i < total.length; i++) {
-                    sum += parseFloat(total[i]);
+                    sum += parseFloat(total[i].value);
             }   
             $(".total").append(`<h3>Total: $${sum.toFixed(2)}</h3>`)
             $(".confirmarCompra").append(`<button class="btn btn-danger btnConfirmar" id="btnCon">CONFIRMAR</button>`)
@@ -80,7 +82,7 @@ $(".carritoProducts").append(`
         </button>
     </td>
     </tr>`)
-total.push(productoAgregado.precio);    
+total.push({id: productoAgregado.id, value: productoAgregado.precio});    
 function eliminar() {
     $(`.eliminar-${productoAgregado.id}`).click(function(){
         $(this).parent('td').parent('tr').remove();
@@ -88,7 +90,7 @@ function eliminar() {
 }
 let sum = 0;
 for (let i = 0; i < total.length; i++) {
-    sum += parseFloat(total[i]);
+    sum += parseFloat(total[i].value);
 }
 $(".total").empty();   
 $(".total").append(`<h3>Total: $${sum.toFixed(2)}</h3>`)
