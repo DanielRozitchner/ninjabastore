@@ -10,8 +10,20 @@ $(document).ready(function () {
                     <td>${almacen.talle}</td>
                     <td>${almacen.color}</td>
                     <td>$${almacen.precio}</td>
+                    <td>
+                    <button class= "btn btn-danger btn-small eliminar-${almacen.id}">
+                        <i class="bi bi-trash-fill"></i>
+                    </button>
+                </td>
                     </tr>`)
                 total.push(almacen.precio);
+                function eliminar() {
+                    $(`.eliminar-${almacen.id}`).click(function(){
+                        $(this).parent('td').parent('tr').remove();
+                    })
+                    
+                }
+                eliminar();
             }
             let sum = 0;
                 for (let i = 0; i < total.length; i++) {
@@ -62,9 +74,18 @@ $(".carritoProducts").append(`
     <td>${productoAgregado.talle}</td>
     <td>${productoAgregado.color}</td>
     <td>$${productoAgregado.precio}</td>
+    <td>
+        <button class= "btn btn-danger btn-small eliminar-${productoAgregado.id}">
+            <i class="bi bi-trash-fill"></i>
+        </button>
+    </td>
     </tr>`)
 total.push(productoAgregado.precio);    
-
+function eliminar() {
+    $(`.eliminar-${productoAgregado.id}`).click(function(){
+        $(this).parent('td').parent('tr').remove();
+    })
+}
 let sum = 0;
 for (let i = 0; i < total.length; i++) {
     sum += parseFloat(total[i]);
@@ -74,6 +95,7 @@ $(".total").append(`<h3>Total: $${sum.toFixed(2)}</h3>`)
 $(".confirmarCompra").empty();
 $(".confirmarCompra").append(`<button class="btn btn-danger btnConfirmar" id="btnCon">CONFIRMAR</button>`)
 $('#btnCon').click(confirmarCompra)
+eliminar();
 };
 
 productos.forEach(newProduct => {
@@ -92,7 +114,7 @@ productos.forEach(newProduct => {
         </div>`;
     document.querySelector("#cards").innerHTML += producto;
     });
-    
+
    //jquery animacion
 
     $(".titleStyle").hover(
