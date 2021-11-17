@@ -5,7 +5,7 @@ $(document).ready(function() {
         if (almacenados.length > 0) {
             for (const almacen of almacenados) {
                 $(".carritoProducts").append(`
-                <tr "datadata"=${almacen.id}>
+                <tr>
                     <td><img src="${almacen.img}" height="80%" width="80%"></img></td>
                     <td>${almacen.modelo}</td>
                     <td>${almacen.talle}</td>
