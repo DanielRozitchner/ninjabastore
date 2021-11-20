@@ -12,7 +12,7 @@ $(document).ready(function() {
                     <td>${almacen.color}</td>
                     <td>$${almacen.precio}</td>
                     <td>
-                    <button class= "btn btn-danger btn-small eliminar-${almacen.id}">
+                    <button class= "btn btn-danger btn-small ${almacen.id}">
                         <i class="bi bi-trash-fill"></i>
                     </button>
                 </td>
@@ -20,7 +20,7 @@ $(document).ready(function() {
                     sum += parseFloat(almacen.precio);
 
                 function eliminar() {
-                    $(`.eliminar-${almacen.id}`).click(function() {
+                    $(`.${almacen.id}`).click(function() {
                         $(this).parent('td').parent('tr').remove();
                         sum -= almacen.precio;
                         $("#total").html(`Total: $${sum.toFixed(2)}`);
@@ -47,29 +47,36 @@ $(document).ready(function() {
     }
 });
 
+let cantidad;
+let locatePos;
+let sizeLocation;
+let colorLocation;
 const agregarAlCarrito = productoSeleccionado => {
     const productoAgregado = {
         ...productoSeleccionado, // spread operator
         talle: document.querySelector(`#talleSeleccionado-${productoSeleccionado.id}`).value,
         color: document.querySelector(`#colorSeleccionado-${productoSeleccionado.id}`).value
     }
-    arrayCarrito.push(productoAgregado);
-    let almacenados;
+    let located = arrayCarrito.find(prod => prod.id == productoAgregado.id);
+    
+    if (located == undefined || productoAgregado.talle != sizeLocation || productoAgregado.color != colorLocation) {
+        arrayCarrito.push(productoAgregado);
+    
+        let almacenados;
 
-    if (JSON.parse(localStorage.getItem("listaProductos"))) {
+        if (JSON.parse(localStorage.getItem("listaProductos"))) {
         almacenados = JSON.parse(localStorage.getItem("listaProductos"));
 
 
-    } else {
+        } else {
         almacenados = [];
-    }
-    almacenados.push(productoAgregado);
+        }
+        almacenados.push(productoAgregado);
 
 
-    localStorage.setItem("listaProductos", JSON.stringify(almacenados));
+        localStorage.setItem("listaProductos", JSON.stringify(almacenados));
 
-
-    Swal.fire({
+        Swal.fire({
             position: 'center',
             icon: 'success',
             title: productoAgregado.modelo,
@@ -78,27 +85,65 @@ const agregarAlCarrito = productoSeleccionado => {
             timer: 1300
         })
         //Agregando los productos al carrito del DOM mediante jQuery
-    $(".carritoProducts").append(`
-<tr>
-    <td><img src="${productoAgregado.img}" height="80%" width="80%"></img></td>
-    <td>${productoAgregado.modelo}</td>
-    <td>${productoAgregado.talle}</td>
-    <td>${productoAgregado.color}</td>
-    <td>$${productoAgregado.precio}</td>
-    <td>
-        <button class= "btn btn-danger btn-small eliminar-${productoAgregado.id}">
-            <i class="bi bi-trash-fill"></i>
-        </button>
-    </td>
-    </tr>`)
-    sum += parseFloat(productoSeleccionado.precio);
-
+        $(".carritoProducts").append(`
+    <tr>
+        <td><img src="${productoAgregado.img}" height="80%" width="80%"></img></td>
+        <td>${productoAgregado.modelo}</td>
+        <td>${productoAgregado.talle}</td>
+        <td>${productoAgregado.color}</td>
+        <td id= "precio-${productoAgregado.id}">$${productoAgregado.precio}</td>
+        <td><input type="number" value=1 id="quant-${productoAgregado.modelo}"></input></td>
+        <td>
+            <button class= "btn btn-danger btn-small ${productoAgregado.id}">
+                <i class="bi bi-trash-fill"></i>
+            </button>
+        </td>
+        </tr>`)
+    sum += parseFloat(productoAgregado.precio);
+    locatePos = arrayCarrito.findIndex(p => p.id == productoAgregado.id);
+    sizeLocation = arrayCarrito[locatePos].talle;
+    colorLocation = arrayCarrito[locatePos].color;
+    }
+    else {
+        locatePos = arrayCarrito.findIndex(p => p.id == productoAgregado.id);
+        cantidad = arrayCarrito[locatePos].cantidad += 1;
+        subPrecio = arrayCarrito[locatePos].precio += productoAgregado.precio;
+       
+        // version jQuery no funcionaba $(`quant-${productoAgregado.modelo}`).val(cantidad);
+        let subSubProduct = document.getElementById(`precio-${productoAgregado.id}`);
+        subSubProduct.innerText = `$${subPrecio}`; 
+        document.getElementById(`quant-${productoAgregado.modelo}`).value = cantidad;
+        sum += parseFloat(productoAgregado.precio);
+    //hacer que solo se pasen al storarge el cambio de precio y monto
+        if (JSON.parse(localStorage.getItem("listaProductos"))) {
+            almacenados = JSON.parse(localStorage.getItem("listaProductos"));
+    
+    
+            } else {
+            almacenados = [];
+            }
+            almacenados.push(productoAgregado);
+    
+    
+            localStorage.setItem("listaProductos", JSON.stringify(almacenados));
+    
+        Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: productoAgregado.modelo,
+            text: 'Ha sido agregado al carrito!',
+            showConfirmButton: false,
+            timer: 1300
+        })
+    }
+    
+    
     function eliminar() {
-        $(`.eliminar-${productoAgregado.id}`).click(function() {
+        $(`.${productoAgregado.id}`).click(function() {
             $(this).parent('td').parent('tr').remove();
             sum -= productoAgregado.precio;
             $("#total").html(`Total: $${sum.toFixed(2)}`);
-            console.log(sum);
+            
         })
         
     }
