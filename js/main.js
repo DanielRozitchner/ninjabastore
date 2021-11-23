@@ -1,4 +1,5 @@
 let sum = 0;
+
 $(document).ready(function() {
     if ("listaProductos" in localStorage) {
         const almacenados = JSON.parse(localStorage.getItem("listaProductos"));
@@ -12,11 +13,14 @@ $(document).ready(function() {
                     <td>${almacen.color}</td>
                     <td>$${almacen.precio}</td>
                     <td>
-                    <button class= "btn btn-danger btn-small ${almacen.id}">
-                        <i class="bi bi-trash-fill"></i>
-                    </button>
-                </td>
-                    </tr>`)
+                        <input type="number" value=${almacen.cantidad}></input>
+                    </td>
+                    <td>
+                        <button class= "btn btn-danger btn-small ${almacen.id}">
+                            <i class="bi bi-trash-fill"></i>
+                        </button>
+                    </td>
+                </tr>`)
                     sum += parseFloat(almacen.precio);
 
                 function eliminar() {
@@ -24,17 +28,10 @@ $(document).ready(function() {
                         $(this).parent('td').parent('tr').remove();
                         sum -= almacen.precio;
                         $("#total").html(`Total: $${sum.toFixed(2)}`);
-                        
-                        // let arrayGet = $(this).parent('td').parent('tr').attr("datadata");
-                        // console.log(arrayGet);
-                        // console.log(arrayGet);
-                        // function eliminarItemLocal(id){
-                        // indexArray = almacenados.findIndex(element => element.id === id);
-                        // almacenados.splice(indexArray, 1);
-                        // arrayResta = JSON.stringify(indexArray);
-                        // localStorage.setItem("listaProductos", arrayResta);
-                        // }
-                        // eliminarItemLocal(arrayGet);
+                        //eliminar producto del local storage
+                        const finder = almacenados.find(element => element.id === almacen.id);
+                        almacenados.splice(finder, 1);
+                        localStorage.setItem("listaProductos",JSON.stringify(almacenados));
                     })
 
                 }
@@ -108,25 +105,14 @@ const agregarAlCarrito = productoSeleccionado => {
         locatePos = arrayCarrito.findIndex(p => p.id == productoAgregado.id);
         cantidad = arrayCarrito[locatePos].cantidad += 1;
         subPrecio = arrayCarrito[locatePos].precio += productoAgregado.precio;
+        localStorage.setItem("listaProductos", JSON.stringify(arrayCarrito));
        
         // version jQuery no funcionaba $(`quant-${productoAgregado.modelo}`).val(cantidad);
         let subSubProduct = document.getElementById(`precio-${productoAgregado.id}`);
         subSubProduct.innerText = `$${subPrecio}`; 
         document.getElementById(`quant-${productoAgregado.modelo}`).value = cantidad;
         sum += parseFloat(productoAgregado.precio);
-    //hacer que solo se pasen al storarge el cambio de precio y monto
-        if (JSON.parse(localStorage.getItem("listaProductos"))) {
-            almacenados = JSON.parse(localStorage.getItem("listaProductos"));
-    
-    
-            } else {
-            almacenados = [];
-            }
-            almacenados.push(productoAgregado);
-    
-    
-            localStorage.setItem("listaProductos", JSON.stringify(almacenados));
-    
+
         Swal.fire({
             position: 'center',
             icon: 'success',
@@ -143,6 +129,10 @@ const agregarAlCarrito = productoSeleccionado => {
             $(this).parent('td').parent('tr').remove();
             sum -= productoAgregado.precio;
             $("#total").html(`Total: $${sum.toFixed(2)}`);
+            const laLista = JSON.parse(localStorage.getItem("listaProductos"));
+            const finder = laLista.find(element => element.id === productoAgregado.id);
+            laLista.splice(finder, 1);
+            localStorage.setItem("listaProductos",JSON.stringify(laLista));
             
         })
         
@@ -223,4 +213,5 @@ function confirmarCompra() {
     localStorage.setItem("listaProductos",'[]');
     $('.carritoProducts').empty();
     $('.total').empty();
+    sum = 0;
 }
