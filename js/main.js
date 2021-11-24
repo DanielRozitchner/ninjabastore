@@ -16,32 +16,22 @@ $(document).ready(function() {
                         <input type="number" value=${almacen.cantidad}></input>
                     </td>
                     <td>
-                        <button class= "btn btn-danger btn-small ${almacen.id}">
+                        <button data-id= ${almacen.id}  class= "btn btn-remove btn-danger btn-small">
                             <i class="bi bi-trash-fill"></i>
                         </button>
                     </td>
                 </tr>`)
                     sum += parseFloat(almacen.precio);
-
-                function eliminar() {
-                    $(`.${almacen.id}`).click(function() {
-                        $(this).parent('td').parent('tr').remove();
-                        sum -= almacen.precio;
-                        $("#total").html(`Total: $${sum.toFixed(2)}`);
-                        //eliminar producto del local storage
-                        const finder = almacenados.find(element => element.id === almacen.id);
-                        almacenados.splice(finder, 1);
-                        localStorage.setItem("listaProductos",JSON.stringify(almacenados));
-                    })
-
-                }
-                eliminar();
-            }
+             } 
+            // $(".btn-remove").click(eliminarEl($(this).attr("data-id")));
+             eliminarEl();
             $(".total").append(`<h3 id="total">Total: $${sum.toFixed(2)}</h3>`)
             $(".confirmarCompra").append(`<button class="btn btn-danger btnConfirmar" id="btnCon">CONFIRMAR</button>`)
             $('#btnCon').click(confirmarCompra)
         }
     }
+   
+
 });
 
 let cantidad;
@@ -57,6 +47,7 @@ const agregarAlCarrito = productoSeleccionado => {
     let located = arrayCarrito.find(prod => prod.id == productoAgregado.id);
     
     if (located == undefined || productoAgregado.talle != sizeLocation || productoAgregado.color != colorLocation) {
+        
         arrayCarrito.push(productoAgregado);
     
         let almacenados;
@@ -69,10 +60,9 @@ const agregarAlCarrito = productoSeleccionado => {
         almacenados = [];
         }
         almacenados.push(productoAgregado);
-
-
+        
         localStorage.setItem("listaProductos", JSON.stringify(almacenados));
-
+        
         Swal.fire({
             position: 'center',
             icon: 'success',
@@ -91,7 +81,7 @@ const agregarAlCarrito = productoSeleccionado => {
         <td id= "precio-${productoAgregado.id}">$${productoAgregado.precio}</td>
         <td><input type="number" value=1 id="quant-${productoAgregado.modelo}"></input></td>
         <td>
-            <button class= "btn btn-danger btn-small ${productoAgregado.id}">
+            <button data-id= ${productoAgregado.id}  class= "btn btn-remove btn-danger btn-small ${productoAgregado.id}">
                 <i class="bi bi-trash-fill"></i>
             </button>
         </td>
@@ -104,15 +94,16 @@ const agregarAlCarrito = productoSeleccionado => {
     else {
         locatePos = arrayCarrito.findIndex(p => p.id == productoAgregado.id);
         cantidad = arrayCarrito[locatePos].cantidad += 1;
-        subPrecio = arrayCarrito[locatePos].precio += productoAgregado.precio;
+        subPrecio = arrayCarrito[locatePos].precio += parseFloat(productoAgregado.precio); // talvez el bardo es aca
         localStorage.setItem("listaProductos", JSON.stringify(arrayCarrito));
-       
-        // version jQuery no funcionaba $(`quant-${productoAgregado.modelo}`).val(cantidad);
-        let subSubProduct = document.getElementById(`precio-${productoAgregado.id}`);
-        subSubProduct.innerText = `$${subPrecio}`; 
+
+        $(`#precio-${productoAgregado.id}`).text(`$${subPrecio}`);
+        
+    //    $(`#quant-${productoAgregado.modelo}`).val(cantidad);
+        
         document.getElementById(`quant-${productoAgregado.modelo}`).value = cantidad;
         sum += parseFloat(productoAgregado.precio);
-
+        
         Swal.fire({
             position: 'center',
             icon: 'success',
@@ -121,25 +112,13 @@ const agregarAlCarrito = productoSeleccionado => {
             showConfirmButton: false,
             timer: 1300
         })
-    }
-    
-    
-    function eliminar() {
-        $(`.${productoAgregado.id}`).click(function() {
-            $(this).parent('td').parent('tr').remove();
-            sum -= productoAgregado.precio;
-            $("#total").html(`Total: $${sum.toFixed(2)}`);
-            const laLista = JSON.parse(localStorage.getItem("listaProductos"));
-            const finder = laLista.find(element => element.id === productoAgregado.id);
-            laLista.splice(finder, 1);
-            localStorage.setItem("listaProductos",JSON.stringify(laLista));
-            
-        })
         
     }
-    eliminar();
+
+    // $(".btn-remove").click(eliminarEl($(this).attr("data-id")));
+    eliminarEl();
     $(".total").empty();
-    $(".total").append(`<h3 id="total">Total: $${sum.toFixed(2)}</h3>`)
+    $(".total").append(`<h3 id="total">Total: $${sum}</h3>`)
     $(".confirmarCompra").empty();
     $(".confirmarCompra").append(`<button class="btn btn-danger btnConfirmar" id="btnCon">CONFIRMAR</button>`)
     $('#btnCon').click(confirmarCompra)
@@ -179,13 +158,13 @@ productos.forEach(newProduct => {
 
     //calcular total para enviar datos a backend    
     
-    function calcularTotal() {
-        let sum = 0;
-    for (let i = 0; i < total.length; i++) {
-        sum += parseFloat(total[i]);
-    }
-    return sum;
-    }
+    // function calcularTotal() {
+    //     let sum = 0;
+    // for (let i = 0; i < total.length; i++) {
+    //     sum += parseFloat(total[i]);
+    // }
+    // return sum;
+    // }
     
 
 function confirmarCompra() {
@@ -194,7 +173,7 @@ function confirmarCompra() {
 
     const URLGET   = "https://jsonplaceholder.typicode.com/posts";
 
-    const infoPost =  { Productos: JSON.stringify(localStorage.getItem("listaProductos")) , Precio: calcularTotal()}
+    const infoPost =  { Productos: JSON.stringify(localStorage.getItem("listaProductos")) , Precio: sum}
 
     console.log(infoPost);
 
@@ -211,6 +190,7 @@ function confirmarCompra() {
     };
     });
     localStorage.setItem("listaProductos",'[]');
+    arrayCarrito = [];
     $('.carritoProducts').empty();
     $('.total').empty();
     sum = 0;

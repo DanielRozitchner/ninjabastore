@@ -1,6 +1,6 @@
 const posiblesTalles = ["S","M","L","XL"];
 const posiblesColores = ["Lila","Negro"];
-const arrayCarrito = [];
+let   arrayCarrito = [];
 const total = []
 const productos = [{
     id: "1",
