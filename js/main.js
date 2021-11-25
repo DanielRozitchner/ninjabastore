@@ -13,7 +13,7 @@ $(document).ready(function() {
                     <td>${almacen.color}</td>
                     <td>$${almacen.precio}</td>
                     <td>
-                        <input type="number" value=${almacen.cantidad}></input>
+                        <input type="number" value=${almacen.cantidad} style="width: 2em"></input>
                     </td>
                     <td>
                         <button data-id= ${almacen.id}  class= "btn btn-remove btn-danger btn-small">
@@ -22,15 +22,15 @@ $(document).ready(function() {
                     </td>
                 </tr>`)
                     sum += parseFloat(almacen.precio);
-             } 
-            // $(".btn-remove").click(eliminarEl($(this).attr("data-id")));
+            } 
+            // let atrib = $(this).attr("data-id");
+            // $(".btn-remove").click(eliminarEl(atrib));
              eliminarEl();
             $(".total").append(`<h3 id="total">Total: $${sum.toFixed(2)}</h3>`)
             $(".confirmarCompra").append(`<button class="btn btn-danger btnConfirmar" id="btnCon">CONFIRMAR</button>`)
             $('#btnCon').click(confirmarCompra)
         }
     }
-   
 
 });
 
@@ -38,6 +38,8 @@ let cantidad;
 let locatePos;
 let sizeLocation;
 let colorLocation;
+
+
 const agregarAlCarrito = productoSeleccionado => {
     const productoAgregado = {
         ...productoSeleccionado, // spread operator
@@ -45,8 +47,8 @@ const agregarAlCarrito = productoSeleccionado => {
         color: document.querySelector(`#colorSeleccionado-${productoSeleccionado.id}`).value
     }
     let located = arrayCarrito.find(prod => prod.id == productoAgregado.id);
-    
-    if (located == undefined || productoAgregado.talle != sizeLocation || productoAgregado.color != colorLocation) {
+
+    if (located == undefined || productoAgregado.talle != sizeLocation || productoAgregado.color != colorLocation)  {
         
         arrayCarrito.push(productoAgregado);
     
@@ -79,7 +81,7 @@ const agregarAlCarrito = productoSeleccionado => {
         <td>${productoAgregado.talle}</td>
         <td>${productoAgregado.color}</td>
         <td id= "precio-${productoAgregado.id}">$${productoAgregado.precio}</td>
-        <td><input type="number" value=1 id="quant-${productoAgregado.modelo}"></input></td>
+        <td><input type="number" value=1 id="quant-${productoAgregado.modelo}" style="width: 2em"></input></td>
         <td>
             <button data-id= ${productoAgregado.id}  class= "btn btn-remove btn-danger btn-small ${productoAgregado.id}">
                 <i class="bi bi-trash-fill"></i>
@@ -92,9 +94,11 @@ const agregarAlCarrito = productoSeleccionado => {
     colorLocation = arrayCarrito[locatePos].color;
     }
     else {
+
+
         locatePos = arrayCarrito.findIndex(p => p.id == productoAgregado.id);
         cantidad = arrayCarrito[locatePos].cantidad += 1;
-        subPrecio = arrayCarrito[locatePos].precio += parseFloat(productoAgregado.precio); // talvez el bardo es aca
+        subPrecio = arrayCarrito[locatePos].precio += parseFloat(productoAgregado.precio);
         localStorage.setItem("listaProductos", JSON.stringify(arrayCarrito));
 
         $(`#precio-${productoAgregado.id}`).text(`$${subPrecio}`);
@@ -115,15 +119,21 @@ const agregarAlCarrito = productoSeleccionado => {
         
     }
 
-    // $(".btn-remove").click(eliminarEl($(this).attr("data-id")));
+    // let atrib = $(this).attr("data-id");
+    // $(".btn-remove").click(eliminarEl(atrib));
     eliminarEl();
+
     $(".total").empty();
     $(".total").append(`<h3 id="total">Total: $${sum}</h3>`)
+    // if (sum != 0.00 ){
     $(".confirmarCompra").empty();
     $(".confirmarCompra").append(`<button class="btn btn-danger btnConfirmar" id="btnCon">CONFIRMAR</button>`)
     $('#btnCon').click(confirmarCompra)
-    
+    // } else {
+    // $( ".confirmarCompra" ).remove(".btnConfirmar");
+    // }
 };
+
 
 productos.forEach(newProduct => {
             const producto = `

@@ -1,7 +1,8 @@
 function eliminarEl() {
     $(".btn-remove").click(function() {
-    $(this).parent('td').parent('tr').remove();
+    
     let atrib = $(this).attr("data-id");
+    $(this).parent('td').parent('tr').remove();
     const laLista = JSON.parse(localStorage.getItem("listaProductos"))
     const finder = laLista.findIndex(element => element.id === atrib);
     priceFind = laLista[finder].precio;
