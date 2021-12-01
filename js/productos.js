@@ -1,6 +1,6 @@
 const posiblesTalles = ["S","M","L","XL"];
 const posiblesColores = ["Lila","Negro"];
-let   arrayCarrito = [];
+let   arrayCarrito = JSON.parse(localStorage.getItem("listaProductos")) || [];
 const total = []
 const productos = [{
     id: "1",

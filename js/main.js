@@ -23,12 +23,11 @@ $(document).ready(function() {
                 </tr>`)
                     sum += parseFloat(almacen.precio);
             } 
-            // let atrib = $(this).attr("data-id");
-            // $(".btn-remove").click(eliminarEl(atrib));
              eliminarEl();
             $(".total").append(`<h3 id="total">Total: $${sum.toFixed(2)}</h3>`)
-            $(".confirmarCompra").append(`<button class="btn btn-danger btnConfirmar" id="btnCon">CONFIRMAR</button>`)
-            $('#btnCon').click(confirmarCompra)
+            $(".login").append(`<button class="btn btn-danger btn-modal" id="btn-login">Registrar Compra</button>
+            `)
+            $(".btn-modal").click(registrarCompra);
         }
     }
 
@@ -46,6 +45,7 @@ const agregarAlCarrito = productoSeleccionado => {
         talle: document.querySelector(`#talleSeleccionado-${productoSeleccionado.id}`).value,
         color: document.querySelector(`#colorSeleccionado-${productoSeleccionado.id}`).value
     }
+    
     let located = arrayCarrito.find(prod => prod.id == productoAgregado.id);
 
     if (located == undefined || productoAgregado.talle != sizeLocation || productoAgregado.color != colorLocation)  {
@@ -119,19 +119,16 @@ const agregarAlCarrito = productoSeleccionado => {
         
     }
 
-    // let atrib = $(this).attr("data-id");
-    // $(".btn-remove").click(eliminarEl(atrib));
+    
     eliminarEl();
 
     $(".total").empty();
     $(".total").append(`<h3 id="total">Total: $${sum}</h3>`)
-    // if (sum != 0.00 ){
-    $(".confirmarCompra").empty();
-    $(".confirmarCompra").append(`<button class="btn btn-danger btnConfirmar" id="btnCon">CONFIRMAR</button>`)
-    $('#btnCon').click(confirmarCompra)
-    // } else {
-    // $( ".confirmarCompra" ).remove(".btnConfirmar");
-    // }
+    $(".login").empty();
+    $(".login").append(`<button class="btn btn-danger btn-modal" id="btn-login">Registrar Compra</button>
+    `)
+    $(".btn-modal").click(registrarCompra);
+    
 };
 
 
@@ -177,31 +174,181 @@ productos.forEach(newProduct => {
     // }
     
 
-function confirmarCompra() {
+/* SECCION USUARIO */
 
-    $('#btnCon').hide();
+// const inputs = ["nombreApellido","mail"]
+// const labels =  ["Nombre y apellido", "Correo"]
+// const places = ["Nombre completo","Ingrese su correo"]
+// /* ACA VAN A IR LOS NUEVOS USUARIOS */
+// let usuarios=[]
 
-    const URLGET   = "https://jsonplaceholder.typicode.com/posts";
+// $("#usuarioBoton").click(function(){
+    
+//     for(const inputsNames of inputs){ 
+        
+//         $("#formularioUsuario").append(`
+//         <label for="" id="labelUsuario" class="labelUsuario">
+//             ${labels[i]}           
+//             <input type="text"  placeholder=${places[i]} class="inputUsuario" name = ${inputsNames} id="${inputsNames}"></input>
+//         </label>`)
+//         i = i+1;
+//     }
+//     $("#formularioUsuario").append(`
+//         <button  type="submit" id="registro"> Registrarse </button>
+//         <button type="reset" >Limpiar </button>
+//     `)
+    
 
-    const infoPost =  { Productos: JSON.stringify(localStorage.getItem("listaProductos")) , Precio: sum}
 
-    console.log(infoPost);
 
-    $.post(URLGET, infoPost ,(respuesta, estado) => {
-        if(estado == "success"){
-            Swal.fire({
-                position: 'center',
-                icon: 'success',
-                title: 'Tu orden de compra ha sido confirmada con el comprobante N°:',
-                text: respuesta.id,
-                showConfirmButton: false,
-                timer: 1800
-                })
-    };
-    });
-    localStorage.setItem("listaProductos",'[]');
-    arrayCarrito = [];
-    $('.carritoProducts').empty();
-    $('.total').empty();
-    sum = 0;
-}
+//     const form = document.getElementById("formularioUsuario")
+//     /* Funcion que toma el boton de envio */
+
+//     /* USUARIO REGISTRADO? */
+
+//     let uRegistrado = false
+
+    // form.addEventListener("submit",(e)=>{
+    //     e.preventDefault();
+      
+//         if ((inputsLlenados.nombreApellido === true ) && (inputsLlenados.nombreUsuario === true ) && (inputsLlenados.gmail === true) && (inputsLlenados.clave === true ) && (inputsLlenados.claveVerificada === true )){
+//             swal.fire({
+//                 icon: 'success',
+//                 title: 'Se a registrado con exito!',
+//             });
+//             /* Creacion de usuarios */
+//             usuarios.push(usuarioTerminado)
+//             console.log(usuarios)
+//             localStorage.setItem("usuario",JSON.stringify(usuarios))
+
+            
+
+//             /* resetea el form */
+//             form.reset()
+
+//             uRegistrado = true
+
+//         }else{
+            
+//             swal.fire({
+
+//                 icon: 'error',
+//                 title: 'Rellene los campos faltantes',
+
+//             });
+            
+//         }
+//     })
+
+// })
+
+// /* Expresiones */
+// const expresiones = {
+//     nombre: /^[a-zA-ZÀ-ÿ\s]{1,40}$/, // Letras y espacios, pueden llevar acentos.
+// 	usuario: /^[a-zA-Z0-9\_\-]{4,16}$/, // Letras, numeros, guion y guion_bajo
+// 	contra: /^.{4,12}$/, // 4 a 12 digitos.
+// 	gmail: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
+// }
+
+// /* Los inputs estan definidos como false al principio para que no pueda ser enviado el formulario de una */
+// const inputsLlenados=[nombre = false, mail = false]
+// class user {
+//     constructor(nC,nDU,c,c1,c2) {
+//         this.nombreCompleto = nC;
+//         this.nombreDeUsuario = nDU;
+//         this.correo = c;
+//         this.contra1 = c1;
+//         this.contra2 = c2;
+
+//     }
+// }
+
+
+
+// const validarForm = (e) => {
+//     let datosUsuario
+//     switch (e.target.name) {
+//         case "nombreApellido":{
+
+//             validar(expresiones.nombre,e,"nombreApellido",nombreApellido)
+//             let name =e.target.value
+//             console.log(name)
+//             datosUsuario= new user (name,"hola","","","")
+//             usuarios.push(datosUsuario)
+//             break
+//         }
+//         case "gmail":{
+
+//             validar(expresiones.gmail,e,"gmail")
+
+
+
+//             break
+//         }
+//     }
+//             if (clave2.value !== clave1.value ) {
+
+//                 /* Validacion Incorrecta */
+//                 document.getElementById("claveVerificada").classList.remove("formVacio")
+//                 document.getElementById("claveVerificada").classList.remove("formCorrecto")
+//                 document.getElementById("claveVerificada").classList.add("formMal")
+//                 inputsLlenados.claveVerificada = false;
+                    
+ 
+//             }else if (clave2.value == " ") {
+//                 /* Validacio Vacia */
+//                 console.log("Estoy vacio")
+//                 document.getElementById("claveVerificada").classList.remove("formCorrecto")
+//                 document.getElementById("claveVerificada").classList.remove("formMal")
+//                 document.getElementById("claveVerificada").classList.add("formVacio")
+//                 inputsLlenados.claveVerificada = false;
+                
+
+//             }else if (clave2.value === clave1.value ){
+
+//                 /* Validacion correcta */
+//                 document.getElementById("claveVerificada").classList.remove("formMal")
+//                 document.getElementById("claveVerificada").classList.remove("formVacio")
+//                 document.getElementById("claveVerificada").classList.add("formCorrecto")
+//                 inputsLlenados.claveVerificada = true;
+//             }
+
+//             break
+
+//     }
+//     console.log(datosUsuario)
+//     console.log(usuarios)
+
+
+
+
+
+// /* FUNCION DE VALIDACION */
+
+// function validar (expresion,evento,campos){
+//     if (expresion.test(evento.target.value)){
+//         /* Validacion correcta */
+
+//         document.getElementById(campos).classList.remove("formMal");
+//         document.getElementById(campos).classList.remove("formVacio");
+//         document.getElementById(campos).classList.add("formCorrecto");
+//         inputsLlenados[campos] = true;       
+
+//     }else if (evento.target.value == "") {
+//         /* Validacio Vacia */
+//         console.log("Estoy vacio")
+//         document.getElementById(campos).classList.remove("formCorrecto")
+//         document.getElementById(campos).classList.remove("formMal")
+//         document.getElementById(campos).classList.add("formVacio")
+//         inputsLlenados[campos]=false;
+
+//     } else {
+//         /* Validacion Incorrecta */
+//         document.getElementById(campos).classList.remove("formVacio")
+//         document.getElementById(campos).classList.remove("formCorrecto")
+//         document.getElementById(campos).classList.add("formMal") 
+//         inputsLlenados[campos]=false;
+
+//     }
+// }
+
