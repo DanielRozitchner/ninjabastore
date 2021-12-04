@@ -11,9 +11,9 @@ $(document).ready(function() {
                     <td>${almacen.modelo}</td>
                     <td>${almacen.talle}</td>
                     <td>${almacen.color}</td>
-                    <td>$${almacen.precio}</td>
+                    <td class='price-market'>$${almacen.precio}</td>
                     <td>
-                        <input type="number" value=${almacen.cantidad} style="width: 2em"></input>
+                        <input type="number" class='qty-market' value=${almacen.cantidad} style="width: 2em"></input>
                     </td>
                     <td>
                         <button data-id= ${almacen.id}  class= "btn btn-remove btn-danger btn-small">
@@ -45,10 +45,15 @@ const agregarAlCarrito = productoSeleccionado => {
         talle: document.querySelector(`#talleSeleccionado-${productoSeleccionado.id}`).value,
         color: document.querySelector(`#colorSeleccionado-${productoSeleccionado.id}`).value
     }
+    const laLista = JSON.parse(localStorage.getItem("listaProductos"));
     
-    let located = arrayCarrito.find(prod => prod.id == productoAgregado.id);
+    if (!arrayCarrito.length && laLista){
+        arrayCarrito = laLista;
+    }
 
-    if (located == undefined || productoAgregado.talle != sizeLocation || productoAgregado.color != colorLocation)  {
+    let located = arrayCarrito.filter(prod => prod.id == productoAgregado.id && prod.talle == productoAgregado.talle && prod.color == productoAgregado.color);
+debugger;
+    if (!located.length || productoAgregado.talle != located[0].talle || productoAgregado.color != located[0].color)  {
         
         arrayCarrito.push(productoAgregado);
     
@@ -80,8 +85,8 @@ const agregarAlCarrito = productoSeleccionado => {
         <td>${productoAgregado.modelo}</td>
         <td>${productoAgregado.talle}</td>
         <td>${productoAgregado.color}</td>
-        <td id= "precio-${productoAgregado.id}">$${productoAgregado.precio}</td>
-        <td><input type="number" value=1 id="quant-${productoAgregado.modelo}" style="width: 2em"></input></td>
+        <td class='price-market-${productoAgregado.id}-${productoAgregado.talle}-${productoAgregado.color}' id= "precio-${productoAgregado.id}">$${productoAgregado.precio}</td>
+        <td><input type="number" value=1 class="qty-market-${productoAgregado.id}-${productoAgregado.talle}-${productoAgregado.color}" quant-${productoAgregado.id}" style="width: 2em"></input></td>
         <td>
             <button data-id= ${productoAgregado.id}  class= "btn btn-remove btn-danger btn-small ${productoAgregado.id}">
                 <i class="bi bi-trash-fill"></i>
@@ -90,22 +95,27 @@ const agregarAlCarrito = productoSeleccionado => {
         </tr>`)
     sum += parseFloat(productoAgregado.precio);
     locatePos = arrayCarrito.findIndex(p => p.id == productoAgregado.id);
-    sizeLocation = arrayCarrito[locatePos].talle;
-    colorLocation = arrayCarrito[locatePos].color;
+    // sizeLocation = arrayCarrito[locatePos].talle;
+    // colorLocation = arrayCarrito[locatePos].color;
     }
-    else {
-
-
-        locatePos = arrayCarrito.findIndex(p => p.id == productoAgregado.id);
-        cantidad = arrayCarrito[locatePos].cantidad += 1;
-        subPrecio = arrayCarrito[locatePos].precio += parseFloat(productoAgregado.precio);
-        localStorage.setItem("listaProductos", JSON.stringify(arrayCarrito));
+    else{
+        for (let i = 0; i < arrayCarrito.length; i++) {
+           if (productoAgregado.id == arrayCarrito[i].id && productoAgregado.talle == arrayCarrito[i].talle && productoAgregado.color == arrayCarrito[i].color){ 
+            
+            cantidad = arrayCarrito[i].cantidad += 1;
+            subPrecio = arrayCarrito[i].precio += parseFloat(productoAgregado.precio);
+            localStorage.setItem("listaProductos", JSON.stringify(arrayCarrito));  
+        }
+    }
+                // locatePos = arrayCarrito.findIndex(p => p.id == productoAgregado.id);
 
         $(`#precio-${productoAgregado.id}`).text(`$${subPrecio}`);
         
     //    $(`#quant-${productoAgregado.modelo}`).val(cantidad);
         
-        document.getElementById(`quant-${productoAgregado.modelo}`).value = cantidad;
+        $(`.quant-${productoAgregado.id}`).value = cantidad;
+        $(`.price-market-${productoAgregado.id}-${productoAgregado.talle}-${productoAgregado.color}`).html(subPrecio);
+        $(`.qty-market-${productoAgregado.id}-${productoAgregado.talle}-${productoAgregado.color}`).val(cantidad);
         sum += parseFloat(productoAgregado.precio);
         
         Swal.fire({
@@ -209,8 +219,7 @@ productos.forEach(newProduct => {
 //     let uRegistrado = false
 
     // form.addEventListener("submit",(e)=>{
-    //     e.preventDefault();
-      
+    //     e.preventDefault(); 
 //         if ((inputsLlenados.nombreApellido === true ) && (inputsLlenados.nombreUsuario === true ) && (inputsLlenados.gmail === true) && (inputsLlenados.clave === true ) && (inputsLlenados.claveVerificada === true )){
 //             swal.fire({
 //                 icon: 'success',

@@ -6,18 +6,21 @@ function eliminarEl() {
     const laLista = JSON.parse(localStorage.getItem("listaProductos"))
     const finder = laLista.findIndex(element => element.id === atributo);
     priceFind = laLista[finder].precio;
-    console.log(priceFind);
     sum = sum - priceFind;
     $("#total").html(`Total: $${sum.toFixed(2)}`);
     laLista.splice(finder, 1);
     arrayCarrito.splice(finder, 1);
     localStorage.setItem("listaProductos",JSON.stringify(laLista));
-    
+		
+    checkCarrito(arrayCarrito, laLista);
 })
 }
-
-    
-
+function checkCarrito(listCarrito, storageCarrito) {
+    if (!listCarrito.length && !storageCarrito.length) {
+        $('.total').empty();
+        $(".login").empty();
+		}
+}
 
 function confirmarCompra() {
 const datosUsuario = {Nombre: $("#valorNombre").val(), Mail: $("#valorMail").val()};
@@ -45,6 +48,7 @@ $('#btnCon').hide();
     };
     });
     localStorage.setItem("listaProductos",'[]');
+    localStorage.setItem("Usuario",'[]');
     arrayCarrito = [];
     $('.carritoProducts').empty();
     $('.total').empty();
@@ -52,7 +56,6 @@ $('#btnCon').hide();
     $(".registroModal").empty();
     sum = 0;
 }
-
 function registrarCompra() {
     $(".registroModal").empty();
     $(".registroModal").append(`<form>
@@ -61,46 +64,38 @@ function registrarCompra() {
     <label for="" id="labelMail" class="labelMail">
     <input type="email" placeholder="Email" id="valorMail"></input>
     <button type="reset" >Limpiar </button>
-    <button type="submit"class="btn btn-danger btnConfirmar" id="btnCon">CONFIRMAR</button>
+    <input type="submit" class="btn btn-danger btnConfirmar" id="btnCon" value="confirmar" />
     </form>`)
-    $('#btnCon').click(validar)
+
+		$('.btnConfirmar').click(function(e) {
+			e.preventDefault();
+			validar();
+		})
 }
 
 // const datosRegistro=[nombre = false, mail = false]
 
 const validateExp = {
-        nombre: /^[a-zA-ZÀ-ÿ\s]{1,40}$/,
-    	mail: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/
-    }
-
-
-function validar () {
-    
-const valorNombre = $("#valorNombre").val();
-const valorMail = $("#valorMail").val();
-
-    
-    if (validateExp.nombre.test(valorNombre) && validateExp.mail.test(valorMail) ){
-        
-    
-        confirmarCompra();
-        
-
-    }else if (valorNombre == "" || valorMail == "") {
-        Swal.fire({
-            icon: 'error',
-            title: 'Por favor, completar todos los datos',
-        })
-       
-}else{  
-        Swal.fire({
-            icon: 'error',
-            title: 'Datos incorrectos',      
-        })
-    }
+	nombre: /^[a-zA-ZÀ-ÿ\s]{1,40}$/,
+	mail: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/
 }
 
-// $(".offcanvas").append(`<div class="alert alert-warning alert-dismissible fade show" role="alert">
-        //     <strong>Holy guacamole!</strong> You should check in on some of those fields below.
-        //  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        // </div>`)
+function validar () {
+	const valorNombre = $("#valorNombre").val();
+	const valorMail = $("#valorMail").val();
+	if (validateExp.nombre.test(valorNombre) && validateExp.mail.test(valorMail) ) {
+		confirmarCompra();
+	} else if (valorNombre == "" || valorMail == "") {
+		Swal.fire({
+				icon: 'error',
+				title: 'Por favor, completar todos los datos',
+				timer: 3000
+		})
+	} else {  
+		Swal.fire({
+				icon: 'error',
+				title: 'Datos incorrectos'
+		})
+	}
+
+}

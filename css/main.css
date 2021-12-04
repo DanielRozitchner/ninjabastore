@@ -65,4 +65,8 @@ body a:hover {
 #offcanvasRightLabel {
   color: blueviolet !important;
 }
+
+#offcanvasRight {
+  width: 500px !important;
+}
 /*# sourceMappingURL=main.css.map */
