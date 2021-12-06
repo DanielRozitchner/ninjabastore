@@ -43,7 +43,7 @@ $('#btnCon').hide();
 
     const infoPost =  { Productos: JSON.stringify(localStorage.getItem("listaProductos")) , Precio: sum, Usuario: JSON.stringify(localStorage.getItem("Usuario"))};
 
-    console.log(infoPost,);
+    console.log(infoPost,); // console.log para simular la informacion que se envia a backend con los datos de la compra
 
     $.post(URLGET, infoPost ,(respuesta, estado) => {
         if(estado == "success"){

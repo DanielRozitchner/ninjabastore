@@ -1,9 +1,5 @@
 .navbar {
   padding: 0.2rem 0.5rem;
-  font-family: sans-serif;
-  letter-spacing: 3px;
-  color: #9ec0ff;
-  font-weight: bold;
 }
 
 .mainLogo {
@@ -19,20 +15,6 @@
 
 .bg-dark {
   background-color: #c7b0ea !important;
-}
-
-body {
-  margin: 0;
-  padding: 0;
-}
-
-body a, body a:link, body a:visited {
-  text-decoration: none;
-  color: #b8ebf1;
-}
-
-body a:hover {
-  color: #9ec0ff;
 }
 
 .titleStyle {
