@@ -1,9 +1,4 @@
-@import "mixins";
-@import "variables";
 
-body {
-    @include reset-list;
-}
 
 .titleStyle {
     text-align: center;
