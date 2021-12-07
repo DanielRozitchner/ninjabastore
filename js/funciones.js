@@ -53,7 +53,7 @@ $('#btnCon').hide();
                 title: 'Nos comunicaremos mediante el mail indicado para informar el metodo de pago, tu orden de compra es el N°:',
                 text: respuesta.id ,
                 showConfirmButton: false,
-                timer: 1800
+                timer: 3000
                 })
     };
     });
