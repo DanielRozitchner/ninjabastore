@@ -50,8 +50,8 @@ $('#btnCon').hide();
             Swal.fire({
                 position: 'center',
                 icon: 'success',
-                title: 'Tu orden de compra ha sido confirmada con el comprobante N°:',
-                text: respuesta.id,
+                title: 'Nos comunicaremos mediante el mail indicado para informar el metodo de pago, tu orden de compra es el N°:',
+                text: respuesta.id ,
                 showConfirmButton: false,
                 timer: 1800
                 })
